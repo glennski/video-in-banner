@@ -39,7 +39,10 @@ function initVideoCanvas(canvas, videoConfig) {
         tempVideo.muted = true;
         tempVideo.loop = true;
         tempVideo.playsinline = true;
+        tempVideo.setAttribute('webkit-playsinline', 'true'); // iOS Safari support
+        tempVideo.setAttribute('playsinline', 'true');        // iOS Safari support
         tempVideo.src = videoSource;
+        tempVideo.load(); // Explicitly load for iOS
 
         // Stop previous video if exists
         if (currentVideo) {
@@ -48,9 +51,17 @@ function initVideoCanvas(canvas, videoConfig) {
         
         currentVideo = tempVideo;
 
+        const playVideo = async () => {
+            try {
+                await tempVideo.play();
+            } catch (err) {
+                console.log('Playback failed, waiting for user interaction');
+            }
+        };
+
         tempVideo.addEventListener('loadedmetadata', () => {
             resizeCanvas();
-            tempVideo.play();
+            playVideo();
             
             function drawFrame() {
                 if (!tempVideo.paused && !tempVideo.ended) {
@@ -77,10 +88,15 @@ function initVideoCanvas(canvas, videoConfig) {
             drawFrame();
         });
 
-        // Handle mobile autoplay
-        document.addEventListener('click', () => {
-            tempVideo.play();
-        });
+        // Handle iOS autoplay
+        const startPlayback = () => {
+            playVideo();
+            document.removeEventListener('touchstart', startPlayback);
+            document.removeEventListener('click', startPlayback);
+        };
+
+        document.addEventListener('touchstart', startPlayback);
+        document.addEventListener('click', startPlayback);
     }
 
     window.addEventListener('resize', () => {
