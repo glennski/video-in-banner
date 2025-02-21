@@ -1,0 +1,55 @@
+# Video Banner Proof of Concept
+
+A lightweight and performant solution for displaying video backgrounds in web banners, particularly useful for advertising banners and hero sections.
+
+## How It Works
+
+This implementation uses HTML5 Canvas to display video content instead of traditional video elements. Here's why:
+
+- Better performance across browsers
+- No HTML5 video player controls
+- Works well in iframes
+- Mobile-friendly
+- No SEO impact (perfect for ad banners)
+
+## Project Structure
+
+```
+video-in-banner/
+├── banner/
+│   ├── assets/          # Your video files go here
+│   ├── js/
+│   │   └── videoscript.js
+│   └── index.html
+```
+
+## Quick Start
+
+1. Place your video file in the `banner/assets/` folder
+2. Update the video path in `index.html`:
+   ```javascript
+   initVideoCanvas(canvas, 'assets/your-video.mp4');
+   ```
+
+## Important Notes
+
+- The banner needs to be served from a web server (not directly from filesystem)
+- Use compressed video files for better performance
+- Video is automatically muted and loops continuously
+- Works on mobile devices (handles autoplay restrictions)
+
+## Testing Locally
+
+You can use any of these methods to test:
+- VS Code's "Live Server" extension
+- Python's built-in server: `python -m http.server`
+- Node's http-server: `npx http-server`
+
+## Browser Support
+
+Works in all modern browsers that support HTML5 Canvas:
+- Chrome
+- Firefox
+- Safari
+- Edge
+- Mobile browsers

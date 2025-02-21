@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Banner</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .banner-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        #videoCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .banner-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner-container">
+        <canvas id="videoCanvas"></canvas>
+        <div class="banner-content">
+            <h1>Your Banner Content</h1>
+            <p>Add your text and other elements here</p>
+        </div>
+    </div>
+
+    <script src="js/videoscript.js"></script>
+    <script>
+        const canvas = document.getElementById('videoCanvas');
+        initVideoCanvas(canvas, 'assets/20495-310204614_tiny.mp4');
+    </script>
+</body>
+</html>
