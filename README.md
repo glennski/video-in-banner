@@ -48,8 +48,24 @@ You can use any of these methods to test:
 ## Browser Support
 
 Works in all modern browsers that support HTML5 Canvas:
-- Chrome
-- Firefox
-- Safari
-- Edge
-- Mobile browsers
+- Chrome 4+
+- Firefox 3.6+
+- Safari 4+
+- Edge (all versions)
+- Mobile browsers (iOS 3.2+, Android 3+)
+
+## Performance Considerations
+
+- Video file size should be kept under 2MB for optimal loading
+- Recommended video dimensions: 1280x720 or 1920x1080
+- Target video duration: 10-30 seconds
+- Use video compression tools like HandBrake or FFmpeg
+
+## Video Format Recommendations
+
+Recommended video formats and settings:
+- Format: MP4 (H.264 codec)
+- Audio: AAC or no audio
+- Framerate: 24-30 fps
+- Bitrate: 1000-2000 kbps
+- Resolution: Adapt to banner size
