@@ -12,7 +12,7 @@
             background: #f0f0f0;
         }
         .preview-container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
         }
         .controls {
@@ -22,17 +22,72 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .banner-wrapper {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .banner-section {
+            margin-bottom: 40px;
         }
-        .banner-frame {
+        .hero-banner-wrapper {
             width: 100%;
-            height: 250px;
+            position: relative;
+            background: white;
+        }
+        .hero-banner {
+            width: 100%;
             border: none;
-            background: #fff;
+        }
+        .inline-banner-wrapper {
+            max-width: 826px;
+            margin: 0 auto;
+            position: relative;
+            padding-bottom: 50%;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .inline-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Hero Banner Responsive */
+        .hero-banner {
+            aspect-ratio: 2/1;
+        }
+        @media (min-width: 768px) {
+            .hero-banner {
+                aspect-ratio: 3/1;
+            }
+        }
+        @media (min-width: 1200px) {
+            .hero-banner {
+                height: 650px;
+                aspect-ratio: auto;
+            }
+        }
+
+        /* Inline Banner Responsive */
+        @media (min-width: 300px) {
+            .inline-banner-wrapper {
+                padding-bottom: 40%;   
+            }
+        }
+        @media (min-width: 460px) {
+            .inline-banner-wrapper {
+                padding-bottom: 33.33%;   
+            }
+        }
+        @media (min-width: 728px) {
+            .inline-banner-wrapper {
+                padding-bottom: 31.25%;
+            }
+        }
+        @media (min-width: 800px) {
+            .inline-banner-wrapper {
+                padding-bottom: 250px;
+            }
         }
         .size-toggle {
             display: flex;
@@ -62,26 +117,46 @@
         <div class="controls">
             <h2>Banner Preview Controls</h2>
             <div class="size-toggle">
-                <button onclick="resizeBanner('300x250')">300x250</button>
-                <button onclick="resizeBanner('728x90')">728x90</button>
-                <button onclick="resizeBanner('160x600')">160x600</button>
-                <button onclick="resizeBanner('970x250')">970x250</button>
+                <button onclick="toggleBannerType('hero')">Hero Banner</button>
+                <button onclick="toggleBannerType('inline')">Inline Banner</button>
             </div>
-            <div class="current-size">Current Size: <span id="size-display">100% x 250px</span></div>
+            <div class="current-size">Current Size: <span id="size-display">Responsive</span></div>
         </div>
-        <div class="banner-wrapper">
-            <iframe src="../banner/index.html" class="banner-frame" id="banner-frame"></iframe>
+
+        <div class="banner-section" id="hero-banner">
+            <h3>Hero Banner</h3>
+            <div class="hero-banner-wrapper">
+                <iframe src="../banner/index.html" class="hero-banner"></iframe>
+            </div>
+        </div>
+
+        <div class="banner-section" id="inline-banner">
+            <h3>Inline Banner</h3>
+            <div class="inline-banner-wrapper">
+                <iframe src="../banner/index.html" class="inline-banner"></iframe>
+            </div>
         </div>
     </div>
 
     <script>
-        function resizeBanner(size) {
-            const frame = document.getElementById('banner-frame');
-            const [width, height] = size.split('x');
-            frame.style.width = `${width}px`;
-            frame.style.height = `${height}px`;
-            document.getElementById('size-display').textContent = `${width}px x ${height}px`;
+        function toggleBannerType(type) {
+            document.getElementById('hero-banner').style.display = type === 'hero' ? 'block' : 'none';
+            document.getElementById('inline-banner').style.display = type === 'inline' ? 'block' : 'none';
+            updateSizeDisplay();
         }
+
+        function updateSizeDisplay() {
+            const heroFrame = document.querySelector('.hero-banner');
+            const inlineFrame = document.querySelector('.inline-banner');
+            const display = document.getElementById('size-display');
+            
+            const activeFrame = document.getElementById('hero-banner').style.display === 'none' ? inlineFrame : heroFrame;
+            display.textContent = `${Math.round(activeFrame.offsetWidth)}px x ${Math.round(activeFrame.offsetHeight)}px`;
+        }
+
+        // Initialize
+        toggleBannerType('hero');
+        window.addEventListener('resize', updateSizeDisplay);
     </script>
 </body>
 </html>

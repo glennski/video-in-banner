@@ -69,3 +69,14 @@ Recommended video formats and settings:
 - Framerate: 24-30 fps
 - Bitrate: 1000-2000 kbps
 - Resolution: Adapt to banner size
+
+## Releases
+
+To create a new release:
+1. Create and push a new tag: `git tag v1.0.0 && git push --tags`
+2. GitHub Actions will automatically:
+   - Create a new release
+   - Generate ZIP files for `/banner` and `/preview-webpage`
+   - Attach the ZIP files to the release
+
+Downloads are available on the [Releases page](../../releases).
