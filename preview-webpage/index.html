@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .controls {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .banner-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .banner-frame {
+            width: 100%;
+            height: 250px;
+            border: none;
+            background: #fff;
+        }
+        .size-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .current-size {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="controls">
+            <h2>Banner Preview Controls</h2>
+            <div class="size-toggle">
+                <button onclick="resizeBanner('300x250')">300x250</button>
+                <button onclick="resizeBanner('728x90')">728x90</button>
+                <button onclick="resizeBanner('160x600')">160x600</button>
+                <button onclick="resizeBanner('970x250')">970x250</button>
+            </div>
+            <div class="current-size">Current Size: <span id="size-display">100% x 250px</span></div>
+        </div>
+        <div class="banner-wrapper">
+            <iframe src="../banner/index.html" class="banner-frame" id="banner-frame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function resizeBanner(size) {
+            const frame = document.getElementById('banner-frame');
+            const [width, height] = size.split('x');
+            frame.style.width = `${width}px`;
+            frame.style.height = `${height}px`;
+            document.getElementById('size-display').textContent = `${width}px x ${height}px`;
+        }
+    </script>
+</body>
+</html>
