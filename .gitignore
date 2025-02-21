@@ -1,9 +1,15 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-
-
-
-
-
-
-
-!banner/assets/.gitkeep# Keep the assets directorybanner/assets/*.avibanner/assets/*.movbanner/assets/*.webmbanner/assets/*.mp4# Ignore video files in assets directory
+# Video files in assets directory
+!banner/assets/.gitkeep
+banner/assets/*.avi
+banner/assets/*.mov
+banner/assets/*.webm
+banner/assets/*.mp4
