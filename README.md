@@ -80,7 +80,6 @@ Works in all modern browsers that support HTML5 Canvas:
 ## Performance Considerations
 
 - Video file size should be kept under 2MB for optimal loading
-- Recommended video dimensions: 1280x720 or 1920x1080
 - Target video duration: 10-30 seconds
 - Use video compression tools like HandBrake or FFmpeg
 
