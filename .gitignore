@@ -1,0 +1,9 @@
+
+
+
+
+
+
+
+
+!banner/assets/.gitkeep# Keep the assets directorybanner/assets/*.avibanner/assets/*.movbanner/assets/*.webmbanner/assets/*.mp4# Ignore video files in assets directory
