@@ -31,6 +31,29 @@ video-in-banner/
    initVideoCanvas(canvas, 'assets/your-video.mp4');
    ```
 
+## Configuration Options
+
+The video banner supports responsive video sources and configuration options:
+
+```javascript
+// Simple usage with single video
+initVideoCanvas(canvas, 'assets/video.mp4');
+
+// Responsive videos for different breakpoints
+initVideoCanvas(canvas, {
+    1920: 'assets/video-large.mp4',
+    1280: 'assets/video-medium.mp4',
+    768: 'assets/video-small.mp4',
+    default: 'assets/video-mobile.mp4'
+});
+```
+
+Available configuration options:
+- Use breakpoints to serve different video files based on viewport width
+- Videos automatically switch when viewport size changes
+- Maintains aspect ratio while covering canvas
+- Handles mobile autoplay restrictions automatically
+
 ## Important Notes
 
 - The banner needs to be served from a web server (not directly from filesystem)

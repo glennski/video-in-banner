@@ -1,3 +1,8 @@
+/**
+ * Initializes a canvas-based video player
+ * @param {HTMLCanvasElement} canvas - The canvas element to draw video on
+ * @param {string|Object} videoConfig - Either a video URL string or breakpoint configuration object
+ */
 function initVideoCanvas(canvas, videoConfig) {
     const ctx = canvas.getContext('2d');
     let currentVideo = null;
