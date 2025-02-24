@@ -2,8 +2,9 @@
  * Initializes a canvas-based video player
  * @param {HTMLCanvasElement} canvas - The canvas element to draw video on
  * @param {string|Object} videoConfig - Either a video URL string or breakpoint configuration object
+ * @param {string} placeholderImage - URL of the placeholder image
  */
-function initVideoCanvas(canvas, videoConfig) {
+function initVideoCanvas(canvas, videoConfig, placeholderImage) {
     const ctx = canvas.getContext('2d');
     let currentVideo = null;
 
@@ -34,11 +35,40 @@ function initVideoCanvas(canvas, videoConfig) {
         return videoConfig.default;
     }
 
+    function drawPlaceholder() {
+        if (!placeholderImage) return;
+        
+        const img = new Image();
+        img.onload = () => {
+            // Calculate dimensions to maintain aspect ratio
+            const imgRatio = img.width / img.height;
+            const canvasRatio = canvas.width / canvas.height;
+            let drawWidth = canvas.width;
+            let drawHeight = canvas.height;
+            let offsetX = 0;
+            let offsetY = 0;
+
+            if (imgRatio > canvasRatio) {
+                drawWidth = canvas.height * imgRatio;
+                offsetX = -(drawWidth - canvas.width) / 2;
+            } else {
+                drawHeight = canvas.width / imgRatio;
+                offsetY = -(drawHeight - canvas.height) / 2;
+            }
+
+            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        };
+        img.src = placeholderImage;
+    }
+
     function loadVideo() {
         const videoSource = getVideoSourceForViewport();
         
         // If we already have a video with this source, don't reload
         if (currentVideo && currentVideo.src.endsWith(videoSource)) return;
+
+        // Draw placeholder immediately
+        drawPlaceholder();
 
         const tempVideo = document.createElement('video');
         tempVideo.muted = true;
@@ -68,29 +98,32 @@ function initVideoCanvas(canvas, videoConfig) {
             resizeCanvas();
             playVideo();
             
-            function drawFrame() {
-                if (!tempVideo.paused && !tempVideo.ended) {
-                    // Calculate dimensions to maintain aspect ratio
-                    const videoRatio = tempVideo.videoWidth / tempVideo.videoHeight;
-                    const canvasRatio = canvas.width / canvas.height;
-                    let drawWidth = canvas.width;
-                    let drawHeight = canvas.height;
-                    let offsetX = 0;
-                    let offsetY = 0;
+            // Only start drawing video frames once the video is actually playing
+            tempVideo.addEventListener('playing', function() {
+                function drawFrame() {
+                    if (!tempVideo.paused && !tempVideo.ended) {
+                        // Calculate dimensions to maintain aspect ratio
+                        const videoRatio = tempVideo.videoWidth / tempVideo.videoHeight;
+                        const canvasRatio = canvas.width / canvas.height;
+                        let drawWidth = canvas.width;
+                        let drawHeight = canvas.height;
+                        let offsetX = 0;
+                        let offsetY = 0;
 
-                    if (videoRatio > canvasRatio) {
-                        drawWidth = canvas.height * videoRatio;
-                        offsetX = -(drawWidth - canvas.width) / 2;
-                    } else {
-                        drawHeight = canvas.width / videoRatio;
-                        offsetY = -(drawHeight - canvas.height) / 2;
+                        if (videoRatio > canvasRatio) {
+                            drawWidth = canvas.height * videoRatio;
+                            offsetX = -(drawWidth - canvas.width) / 2;
+                        } else {
+                            drawHeight = canvas.width / videoRatio;
+                            offsetY = -(drawHeight - canvas.height) / 2;
+                        }
+
+                        ctx.drawImage(tempVideo, offsetX, offsetY, drawWidth, drawHeight);
                     }
-
-                    ctx.drawImage(tempVideo, offsetX, offsetY, drawWidth, drawHeight);
+                    requestAnimationFrame(drawFrame);
                 }
-                requestAnimationFrame(drawFrame);
-            }
-            drawFrame();
+                drawFrame();
+            }, { once: true });
         });
 
         // Handle iOS autoplay

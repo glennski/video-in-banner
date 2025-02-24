@@ -33,23 +33,27 @@ video-in-banner/
 
 ## Configuration Options
 
-The video banner supports responsive video sources and configuration options:
+The video banner supports responsive video sources, placeholder images, and configuration options:
 
 ```javascript
 // Simple usage with single video
 initVideoCanvas(canvas, 'assets/video.mp4');
 
-// Responsive videos for different breakpoints
+// With placeholder image
+initVideoCanvas(canvas, 'assets/video.mp4', 'assets/placeholder.jpg');
+
+// Responsive videos with placeholder
 initVideoCanvas(canvas, {
     1920: 'assets/video-large.mp4',
     1280: 'assets/video-medium.mp4',
     768: 'assets/video-small.mp4',
     default: 'assets/video-mobile.mp4'
-});
+}, 'assets/placeholder.jpg');
 ```
 
 Available configuration options:
 - Use breakpoints to serve different video files based on viewport width
+- Optional placeholder image shown while video is loading
 - Videos automatically switch when viewport size changes
 - Maintains aspect ratio while covering canvas
 - Handles mobile autoplay restrictions automatically
@@ -80,6 +84,7 @@ Works in all modern browsers that support HTML5 Canvas:
 ## Performance Considerations
 
 - Video file size should be kept under 2MB for optimal loading
+- Placeholder images should be optimized (recommended: under 100KB)
 - Target video duration: 10-30 seconds
 - Use video compression tools like HandBrake or FFmpeg
 
